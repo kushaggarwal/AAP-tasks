@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Data Viewer</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  </head>
+  <style>
+    #main {
+      margin-top: 15%;
+      margin-bottom: 25%;
+    }
+
+    #heading1 {
+      margin-top: 10%;
+      margin-bottom: 10%;
+    }
+    #start {
+      margin-bottom: 10%;
+      position: relative;
+      top: 50%;
+      left: 43%;
+    }
+    #heading2 {
+      margin-top: 5%;
+      font-family: "Pacifico", cursive;
+      margin-bottom: 30px;
+    }
+    .pagination {
+      position: relative;
+      top: 50%;
+      left: 45%;
+      margin-bottom: 10%;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div id="main">
+        <img src="instagram.jpg" class="rounded mx-auto d-block" />
+        <div id="heading1">
+          <h1 class="text-center">
+            Please Click Here To View The Influencers Data
+          </h1>
+        </div>
+        <button onclick="start()" id="start" class="btn btn-primary btn-lg ">
+          Click Here
+        </button>
+      </div>
+      <div id="tabdata">
+        <h1 class="text-center" id="heading2">Influencers Data</h1>
+        <table class="table table-hover" id="Users">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Followers Count</th>
+              <th scope="col">Like Ratios</th>
+              <th scope="col">Comment Ratios</th>
+              <th scope="col">Picture</th>
+            </tr>
+          </thead>
+          <tbody id="tbod"></tbody>
+        </table>
+        <h4 class="text-center">Navigate Here for further data</h4>
+        <div class="pagination">
+          <button
+            onclick="prev()"
+            id="prev"
+            class=" btn btn-primary"
+            style="margin-right:5px"
+          >
+            Prev
+          </button>
+          <button onclick="next()" id="next" class=" btn btn-secondary">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function() {
+        $("#tabdata").hide();
+      });
+      function print(current) {
+        console.log(current);
+        $(document).ready(function() {
+          $.getJSON(" http://demo4469839.mockable.io/influencers", function(
+            data
+          ) {
+            var Users = "";
+
+            $.each(data, function(key, value) {
+              for (i = current * 20 - 20; i < current * 20; i++) {
+                var influencer = data.data.allInfluencers[i];
+                Users += "<tr>";
+                Users += "<td>" + influencer.username + "</td>";
+                Users += "<td>" + influencer.stats.followerCount + "</td>";
+                Users +=
+                  "<td>" + influencer.stats.engagement.avgLikesRatio + "</td>";
+                Users +=
+                  "<td>" +
+                  influencer.stats.engagement.avgCommentsRatio +
+                  "</td>";
+                Users += "<td><img src=" + influencer.picture + "></td>";
+                Users += "</tr>";
+              }
+            });
+
+            $("#Users").append(Users);
+          });
+        });
+      }
+
+      function start() {
+        current = 1;
+        print(current);
+        $("#main").hide();
+        $("#tabdata").show();
+      }
+      function next() {
+        document.getElementById("tbod").innerHTML = "";
+        current++;
+        print(current);
+      }
+
+      function prev() {
+        document.getElementById("tbod").innerHTML = "";
+        current--;
+        print(current);
+      }
+    </script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
