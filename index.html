@@ -104,14 +104,25 @@
               for (i = current * 20 - 20; i < current * 20; i++) {
                 var influencer = data.data.allInfluencers[i];
                 Users += "<tr>";
-                Users += "<td>" + influencer.username + "</td>";
-                Users += "<td>" + influencer.stats.followerCount + "</td>";
-                Users +=
-                  "<td>" + influencer.stats.engagement.avgLikesRatio + "</td>";
-                Users +=
-                  "<td>" +
-                  influencer.stats.engagement.avgCommentsRatio +
-                  "</td>";
+                if (influencer.stats == null) {
+                  Users += "<td>" + influencer.username + "</td>";
+                  Users += "<td>" + null + "</td>";
+                  Users += "<td>" + null + "</td>";
+                  Users += "<td>" + null + "</td>";
+                } else {
+                  Users += "<td>" + influencer.username + "</td>";
+
+                  Users += "<td>" + influencer.stats.followerCount + "</td>";
+                  Users +=
+                    "<td>" +
+                    influencer.stats.engagement.avgLikesRatio +
+                    "</td>";
+                  Users +=
+                    "<td>" +
+                    influencer.stats.engagement.avgCommentsRatio +
+                    "</td>";
+                }
+
                 Users += "<td><img src=" + influencer.picture + "></td>";
                 Users += "</tr>";
               }
@@ -127,14 +138,21 @@
         print(current);
         $("#main").hide();
         $("#tabdata").show();
+        $("#prev").attr("disabled", true);
       }
       function next() {
+        if (current == 13) {
+          $("#next").attr("disabled", true);
+        }
+        $("#prev").attr("disabled", false);
         document.getElementById("tbod").innerHTML = "";
         current++;
         print(current);
       }
 
       function prev() {
+        if (current == 1) {
+        }
         document.getElementById("tbod").innerHTML = "";
         current--;
         print(current);
