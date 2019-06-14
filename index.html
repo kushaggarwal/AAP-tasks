@@ -156,7 +156,8 @@
       }
 
       function prev() {
-        if (current == 1) {
+        if (current == 2) {
+          $("#prev").attr("disabled", true);
         }
         document.getElementById("tbod").innerHTML = "";
         current--;
